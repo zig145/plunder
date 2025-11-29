@@ -1,14 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { playPirateSound, initializeBackgroundMusic, stopBackgroundMusic } from './audio'
 
 function App() {
   const letters = 'ABCDEFGHIJKL'
   const [coordinates, setCoordinates] = useState<{ letter: string; number: number } | null>(null)
 
+  useEffect(() => {
+    initializeBackgroundMusic()
+    
+    return () => {
+      stopBackgroundMusic()
+    }
+  }, [])
+
   const generateCoordinates = () => {
     const randomLetter = letters[Math.floor(Math.random() * letters.length)]
     const randomNumber = Math.floor(Math.random() * 18) + 1
     setCoordinates({ letter: randomLetter, number: randomNumber })
+    // playPirateSound()
   }
 
   return (
